@@ -1,0 +1,10 @@
+.buttonadd {border-radius: 50%;
+        -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+
+.buttonadd:hover {
+    background-color: white; /* Green */
+    color: orange;
+}

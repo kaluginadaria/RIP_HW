@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}home{% endblock %}
+
+{% block content %}
+
+    <h1>{{ header }}</h1>
+    {% if user.is_authenticated %}
+        <div class="container">
+            <a href="/add" role="button">
+                <button class="buttonadd">+</button>
+            </a>
+            <div class="panel-group">
+
+
+                {% include "list_groups.html" %}
+
+
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
