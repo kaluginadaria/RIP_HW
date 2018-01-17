@@ -15,7 +15,7 @@
         {% load staticfiles %}
         <img src="{% static "" %}{{ group.pic }}" width="100%"/>
     </div>
-    <div class="col-lg-6 col-md-offset-3" align="justify">
+    <div id='reload' class="col-lg-6 col-md-offset-3" align="justify">
 
         <br>
         <h5>{{ group.description }}</h5>
@@ -54,7 +54,9 @@
                 dataType: "text",
                 success: function (data) {
                     if (data == "ok")
-                        alert("You entered group")
+                        alert("You entered group");
+                        $('#enter_btn').hide();
+{#                        $('#reload').html(object.html);#}
 
                 }
 

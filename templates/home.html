@@ -11,10 +11,22 @@
                 <button class="buttonadd">+</button>
             </a>
             <div class="panel-group">
-
+                {% for data in paginator %}
 
                 {% include "list_groups.html" %}
 
+                {% endfor %}
+             <div class="pagination">
+                    {% if paginator.has_previous %}
+                        <a href="?page={{ paginator.previous_age_number }}"> Previous</a>
+                    {% endif %}
+                    {% if paginator.has_previous  or paginator.has_next %}
+                        <span class="'current"> Page {{ paginator.number }} out of {{ paginator.paginator.num_pages }}</span>
+                    {% endif %}
+                    {% if paginator.has_next %}
+                        <a href="?page={{ paginator.next_page_number }}">Next</a>
+                    {% endif %}
+                </div>
 
             </div>
         </div>

@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, View
 from django.views.generic import DetailView
 import datetime
+
+from hwApp.paginator import paginate
 from .models import *
 
 
@@ -17,10 +19,18 @@ def home(request):
     return render(request, 'home.html', context=parameters)
 
 
-class GroupsView(ListView):
-    model = Group
-    template_name = 'home.html'
-    context_object_name = 'group_list'
+# class GroupsView(ListView):
+#     model = Group
+#     template_name = 'home.html'
+#     context_object_name = 'group_list'
+
+
+def groups_view(request):
+    group = Group.objects.all()
+    print(group)
+    page = request.GET.get('page')
+    print(page)
+    return render(request, "home.html", {'group_list': group, 'paginator': paginate(group, page)})
 
 
 class PersonsView(ListView):
@@ -67,8 +77,7 @@ def add(request):
         genre1 = request.POST.get('genre')
         member = request.POST.get('member')
         date = request.POST.get('date')
-        print(name1)
-        print(member)
+
         description1 = request.POST.get('description')
         pic1 = request.FILES.get('pic')
         group1 = Group(name=name1, genre=genre1, description=description1,
@@ -179,5 +188,6 @@ def enter(request):
         group = Group.objects.get(id=request.GET['group_id'])
         mem = Membership.objects.create(person=pers, group=group,
                                         date_joined=datetime.datetime.now().date())
-
-    return HttpResponse("ok")
+        return HttpResponse('ok')
+        print(group.id)
+    #return HttpResponseRedirect('/item-' + str(group.id))

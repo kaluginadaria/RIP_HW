@@ -22,7 +22,7 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', GroupsView.as_view(), name='groups_url'),
+    url(r'^$', groups_view, name='groups_url'),
     url(r'^enter/$', enter, name='enter'),
 
     url(r'^registration/$', registration, name='registration'),
