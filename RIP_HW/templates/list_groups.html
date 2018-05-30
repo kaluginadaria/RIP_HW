@@ -1,0 +1,104 @@
+{% load static %}
+{#{% load template_filter %}#}
+
+<div class=" panel-default">
+
+
+    <div class=" panel panel-heading">
+        <h3>
+
+            <a href="/item-{{ data.id }}">{{ data.name }}</a>
+            <small>
+                {% for i in data.genre.all %}
+
+                    {{ i }}
+
+                {% endfor %}</small>
+        </h3>
+        <span class="right ">
+            <button class="btn btn-default" type="button" onclick="like('{{ user }}', {{ data.id }} , true )">
+                <span class='glyphicon glyphicon-thumbs-up'></span>
+            </button>
+            <span  id='rating{{ data.id }}'>
+                <span > {{ data.rating }}</span>
+
+            </span>
+
+            <button class="btn btn-default" type="button" onclick="like('{{ user }}', {{ data.id }} , false )">
+                <span class='glyphicon glyphicon-thumbs-down'></span>
+            </button>
+        </span>
+        </div>
+
+
+
+    <div class="panel panel-body ">
+        <div class="row">
+
+
+            <div class="col-lg-4 ">
+
+                <img src="{% static "" %}{{ data.pic }}" width="50%"/>
+            </div>
+            <div class="col-lg-4">
+                <h4>{{ data.description }}</h4>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    function like(user, group, positive) {
+
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
+            }
+        });
+        $.ajax({
+            url: {% url "like" %},
+            type: "POST",
+            data: {user: user, group: group, positive: positive},
+            success: function (json) {
+
+                var button = document.getElementById('rating' + group)
+                button.innerText = json.rating
+                console.log(json.rating)
+                button.isDisabled = true
+            },
+
+            error: function (json) {
+
+                 console.log("failed to change rating")
+                if (user == 'AnonymousUser')  alert("Войдите для оценки")
+
+            }
+        })
+    };
+
+    function myFunction(x) {
+        x.classList.toggle("fa-thumbs-down");
+    }
+</script>
+
+
+
+
+

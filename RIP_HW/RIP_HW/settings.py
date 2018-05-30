@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hwApp',
-    'el_pagination'
+   # 'el_pagination'
 ]
 
 MIDDLEWARE = [
@@ -125,6 +125,6 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = 'hwApp/static/'
 MEDIA_URL = '/'
-from django.conf.global_settings import TEMPLATES
+# from django.conf.global_settings import TEMPLATES
 
-TEMPLATES[0]['OPTIONS']['context_processors'].insert(0, 'django.core.context_processors.request')
+# TEMPLATES[0]['OPTIONS']['context_processors'].insert(0, 'django.core.context_processors.request')

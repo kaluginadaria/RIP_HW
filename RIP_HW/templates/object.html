@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% csrf_token %}
+{% block title %}Groups{% endblock %}
+
+{% block content %}
+    <div class="col-sm-10">
+        <div class="">
+            <h1 style="font-family: Verdana; text-align: center;  font-weight: bold;">{{ group.name }}</h1>
+            <h3 style="font-family: Verdana; text-align: center">{% for i in group.genre.all %}
+
+                {{ i }}
+
+            {% endfor %}</h3>
+        </div>
+        <div>
+            <br>
+            <div class="">
+                {% load staticfiles %}
+                <img src="{% static "" %}{{ group.pic }}" width="100%"/>
+            </div>
+            <div id='reload' class="" align="justify">
+
+                <br>
+                <h5>{{ group.description }}</h5>
+                <form class="form-horizontal" method="POST">
+                    {% csrf_token %}
+                    <div class=" form-group">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-sm-9 ">
+                            <button style="margin-top: 10px" type="submit" class="btn btn-default btn-search">Comment
+                            </button>
+
+                            {{ form.text }}
+                        </div>
+
+                    </div>
+                </form>
+
+
+
+                {% for data in paginator %}
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="right">
+                                <button class="btn btn-default" type="button"><span
+                                        class='glyphicon glyphicon-thumbs-up'></span></button>
+                                <span class="panel panel-default">
+                                 {{ data.rating }}
+                                 </span>
+
+                                <button class="btn btn-default" type="button"><span
+                                        class='glyphicon glyphicon-thumbs-down'></span></button>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{% static "" %}{{ data.user.avatar }}" width="45" height="45"/>
+
+
+                            </div>
+                            <div class="col-md-9 col-md-offset-0">
+                                <div>
+
+                                </div>
+                                <p class="Textpoint">{{ data.text }}</p>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="pagination">
+                    {% if paginator.has_previous %}
+                        <a href="?page={{ paginator.previous_age_number }}"> Previous</a>
+                    {% endif %}
+                    {% if paginator.has_previous  or paginator.has_next %}
+                        <span class="'current"> Page {{ paginator.number }} out of {{ paginator.paginator.num_pages }}</span>
+                    {% endif %}
+                    {% if paginator.has_next %}
+                        <a href="?page={{ paginator.next_page_number }}">Next</a>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="" align="center">
+                {% if user not in customers_list %}
+
+
+
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {#    <script>#}
+    {##}
+    {#        $("#enter_btn").click(function () {#}
+    {##}
+    {##}
+    {#            $.ajax({#}
+    {#                url: "enter/",#}
+    {#                type: "GET",#}
+    {#                data: {#}
+    {#                    "user_name": "{{ user.username }}",#}
+    {#                    "group_id": "{{ group.id }}"#}
+    {#                },#}
+    {#                dataType: "text",#}
+    {#                success: function (data) {#}
+    {#                    if (data == "ok")#}
+    {#                        alert("You entered group");#}
+    {#                        $('#enter_btn').hide();#}
+    {#                        $('#reload').html(object.html);#}
+    {##}
+    {#                }#}
+    {##}
+    {##}
+    {#            });#}
+    {#        });#}
+    {##}
+    {##}
+    {#    </script>#}
+{% endblock %}
+{% block tags %}
+    <h4>Popular Genres</h4>
+    {% for j in tag %}
+        <a href="{% url 'listing_by_tag' %}?tag={{ j }}">{{ j }}</a>
+    {% endfor %}
+{% endblock %}
